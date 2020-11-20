@@ -13,9 +13,23 @@
     </style>
     <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
      <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+     
 </head>
 <body>
-    <h1>Woman in tech</h1>
-    <img src="https://randomuser.me/api/portraits/women/2.jpg">
+    <div id="app"> </div>
+       <!-- <h1>Woman in tech</h1>
+        <img src="https://randomuser.me/api/portraits/women/2.jpg">-->
+    
+    <script>
+        const $app = document.getElementById("app")
+        //allow us create elements      
+        const h = React.createElement
+        const Avatar = (params) =>{
+            const src = `https://randomuser.me/api/portraits/women/${params.id}.jpg`;
+            return h('img',{src})
+        };
+    //para usar el componente, se debe usar nuevamente h para crear el elemento
+    ReactDOM.render(h(Avatar,{id: "2"}), $app)
+    </script>
 </body>
 </html>
