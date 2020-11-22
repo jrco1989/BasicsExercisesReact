@@ -13,23 +13,41 @@
     </style>
     <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
      <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <!-- the fastest way to test JSX-->
+     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
      
 </head>
 <body>
     <div id="app"> </div>
+     
        <!-- <h1>Woman in tech</h1>
         <img src="https://randomuser.me/api/portraits/women/2.jpg">-->
     
-    <script>
+    <script type="text/babel">
         const $app = document.getElementById("app")
         //allow us create elements      
         const h = React.createElement
         const Avatar = (params) =>{
             const src = `https://randomuser.me/api/portraits/women/${params.id}.jpg`;
-            return h('img',{src})
-        };
+            
+            //return h('img',{src});
+            //jsx nos perpmite usar una notación parecida al HTML
+            return (
+                <picture>
+                <img src={src} />
+                <span>{params.name}</span>
+                </picture>
+            )
+        }
     //para usar el componente, se debe usar nuevamente h para crear el elemento
-    ReactDOM.render(h(Avatar,{id: "2"}), $app)
+    ReactDOM.render(
+        //h(Avatar,{id: "2"}), $app
+        <div>
+        <Avatar id={1} name={"Juli"}/>,
+        <Avatar id={12} name={"Juli"} />
+        </div>,
+        $app
+    )
     </script>
 </body>
 </html>
