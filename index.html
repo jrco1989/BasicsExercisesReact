@@ -49,16 +49,26 @@
         const enabled = state[0]
         const setEnabled = state[1] forma de manipular laprimera posición*/
         
-        const Avatar = (props) =>{
+        //const Avatar = (props) =>{
+        //forma de decosntruir el parámetro, ahora se va a eliminar la palabra props p arausar los parámetros
+        //se puede utilizar para poner valores po rdefecto 
+        const Avatar = ({size, id , name='NN'}) =>{
             const [enabled, setEnabled] = useState(true)
-            const src = `https://randomuser.me/api/portraits/women/${props.id}.jpg`;
+            const src = `https://randomuser.me/api/portraits/women/${id}.jpg`;
             //formla ternaria = sí enabled esta activado (is true ) añade un string vacio, sino añader la clase disabled
             const imgclassName = enabled ? '' : 'disabled';
+            
+            /* REnderizado condicional 
+            //if (!id) return "Avatar incorrecto"
+            if (!id) 
+                return <img src="https://randomuser.me/api/portraits/logo/8.jpg" />
+            */
+
             //const pictureClassName= props.size ==='small' ? 'is-small' :''
             let pictureClassName=''
-            if(props.size === 'small'){
+            if(size === 'small'){
                 pictureClassName='is-small'
-            }else if (props.size==='large') {
+            }else if (size==='large') {
                 pictureClassName='is-large'
             }
             //console.log(props)
@@ -67,29 +77,72 @@
             //jsx nos permite usar una notación parecida al HTML
             return (
                 <picture className={pictureClassName}>
-                <img  
-                    //onClick={event=>{event.target.classList.toggle("disabled");
-                    //alert() }} 
-                onClick={()=>{
-                        //!enable me niega el valor actual de enable y se lo pasa al método set Enabled
-                    setEnabled(!enabled)
-                }}
-                //el imgclassName es para poner las clases de HTML, NO se puede
-                //usar el simple class al ser una palabra reservada en js
-                //'disabled' al ser un string se puede usar sin llaves
-                className={imgclassName} src={src} 
-                />
-                <span>{props.name}</span>
+                {
+                    id ? (
+                        <img
+                            onClick= {() =>{
+                                setEnabled(!enabled)
+                            }} 
+                            className = {imgclassName}
+                            src={src}
+                            />
+                    ) : <strong>Sin imagen</strong>               
+                }
+                
+                <strong>{enabled ? name : "Desactivado"}</strong>
                 </picture> 
             );
         };
+        /*
+                //el imgclassName es para poner las clases de HTML, NO se puede
+                //usar el simple class al ser una palabra reservada en js
+                //'disabled' al ser un string se puede usar sin llaves
+                */
+    /* forma antigua de poner propiedades por defecto:
+    Avatar.defaultProps={
+        name: "fsdfasdnn"
+    };*/
     //para usar el componente, se debe usar nuevamente h para crear el elemento
+    /*los estados no syudan también para decirle al componente cuándo odebe
+    renderizarse nuevamente  yactualizar el estado*/
+    function Contador (){
+        /*let contadorState = useState(23) //recordar, devuelve un array de dos pospiciones
+        let contadorValue = contadorState[0]
+        let actualizador = contadorState[1]*/
+
+        //ingresando un valor directo 
+        const [contadorValue, actualizador] = useState(23)  
+        const [veces, actualizadorVeces] = useState(23)  
+        // con objeto 
+        //const [contadorValue, actualizador] = useState({value : 0})  
+        return (
+            <div>
+            <span>{contadorValue}</span>
+            <button onClick = {()=>{
+                actualizador(contadorValue + 1)
+                actualizadorVeces(veces +1)
+                }} >más +</button>
+             <button onClick ={ ()=>{
+                actualizador(contadorValue - 1)
+                actualizadorVeces(veces +1)
+             }}>menos -</button>
+             <span>{veces}</span>
+            </div>
+        )
+    }
+/*Los hooks nos permiten dotar de funcionalidad a los componentes
+como darles estado, guardar informacion, cómo generar o ejecutar
+métodos y funciones cuando se vuelve a renderizar el componente
+(son "ganchos")
+Formick se recomienda para componentes de formularios grandes 
+*/
     ReactDOM.render(
         //h(Avatar,{id: "2"}), $app
         <div>
-        <Avatar id={1} name={"Juli"} size ="small" />,
-        <Avatar id={12} name={"Juli"} />
-        <Avatar id={31} name={"poncha"} size ="large" />,
+        <Avatar id={1} name={"Juli"} size ="small" />
+        <Avatar name = "kilate"  />
+        <Avatar id={31} name={"poncha"} size ="large" />
+        <Contador />
         </div>,
         $app
     )
