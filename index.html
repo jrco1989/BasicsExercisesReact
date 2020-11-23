@@ -5,10 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>exercise</title>
     <style>
+        picture {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        width: 100px;
+        } 
+        picture.is-small {
+            width: 50px;
+        }
+        picture.is-large {
+            width: 200px;
+        }
         img{
-            box-shadow: 5px 10px #888888; 
-            border-radius: 50%;
-            width: 300px;
+            box-shadow: 0 5px 10px #da4f4f; 
+            border-radius: 50% ;
+            width: 100%;
+            }
+        
+        img.disabled {
+        opacity: 0.3;
         }
     </style>
     <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
@@ -26,25 +42,54 @@
     <script type="text/babel">
         const $app = document.getElementById("app")
         //allow us create elements      
-        const h = React.createElement
-        const Avatar = (params) =>{
-            const src = `https://randomuser.me/api/portraits/women/${params.id}.jpg`;
-            
+        //const h = React.createElement
+        const useState = React.useState   
+        //useState devuelve un array con dos posiciones
+        /*const state = useState(true)
+        const enabled = state[0]
+        const setEnabled = state[1] forma de manipular laprimera posición*/
+        
+        const Avatar = (props) =>{
+            const [enabled, setEnabled] = useState(true)
+            const src = `https://randomuser.me/api/portraits/women/${props.id}.jpg`;
+            //formla ternaria = sí enabled esta activado (is true ) añade un string vacio, sino añader la clase disabled
+            const imgclassName = enabled ? '' : 'disabled';
+            //const pictureClassName= props.size ==='small' ? 'is-small' :''
+            let pictureClassName=''
+            if(props.size === 'small'){
+                pictureClassName='is-small'
+            }else if (props.size==='large') {
+                pictureClassName='is-large'
+            }
+            //console.log(props)
+            //console.log(useState)
             //return h('img',{src});
-            //jsx nos perpmite usar una notación parecida al HTML
+            //jsx nos permite usar una notación parecida al HTML
             return (
-                <picture>
-                <img src={src} />
-                <span>{params.name}</span>
-                </picture>
-            )
-        }
+                <picture className={pictureClassName}>
+                <img  
+                    //onClick={event=>{event.target.classList.toggle("disabled");
+                    //alert() }} 
+                onClick={()=>{
+                        //!enable me niega el valor actual de enable y se lo pasa al método set Enabled
+                    setEnabled(!enabled)
+                }}
+                //el imgclassName es para poner las clases de HTML, NO se puede
+                //usar el simple class al ser una palabra reservada en js
+                //'disabled' al ser un string se puede usar sin llaves
+                className={imgclassName} src={src} 
+                />
+                <span>{props.name}</span>
+                </picture> 
+            );
+        };
     //para usar el componente, se debe usar nuevamente h para crear el elemento
     ReactDOM.render(
         //h(Avatar,{id: "2"}), $app
         <div>
-        <Avatar id={1} name={"Juli"}/>,
+        <Avatar id={1} name={"Juli"} size ="small" />,
         <Avatar id={12} name={"Juli"} />
+        <Avatar id={31} name={"poncha"} size ="large" />,
         </div>,
         $app
     )
