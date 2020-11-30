@@ -135,7 +135,27 @@ como darles estado, guardar informacion, cómo generar o ejecutar
 métodos y funciones cuando se vuelve a renderizar el componente
 (son "ganchos")
 Formick se recomienda para componentes de formularios grandes 
-*/
+
+
+
+Es probable que hayas realizado recuperación de datos, suscripciones o modificación manual del DOM desde los 
+componentes de React. Llamamos a estas operaciones “efectos secundarios” (o “efectos” para abreviar) porque 
+pueden afectar a otros componentes y no se pueden hacer durante el renderizado.
+
+El Hook de efecto, useEffect, agrega la capacidad de realizar efectos secundarios desde un componente funcional.
+useEffect(() => {    // Actualiza el título del documento usando la Browser API 
+    document.title = `You clicked ${contadorValue} times`; 
+ });
+ Cuando llamas a useEffect, le estás diciendo a React que ejecute tu función de “efecto” después de vaciar
+  los cambios en el DOM. Los efectos se declaran dentro del componente para que tengan acceso a sus props y estado.
+  Los Hooks son funciones de JavaScript, pero imponen dos reglas adicionales:
+
+    Solo llamar Hooks en el nivel superior. No llames Hooks dentro de loops, condiciones o funciones anidadas.
+    Solo llamar Hooks desde componentes funcionales de React. No llames Hooks desde las funciones regulares de JavaScript. (Solo hay otro lugar válido para llamar Hooks: tus propios Hooks personalizados. En un momento aprenderemos sobre estos).
+
+Hay algunos Hooks incorporados de uso menos común que pueden resultarte útiles. Por ejemplo, useContext te permite suscribirte al contexto React sin introducir el anidamiento:
+Y useReducer te permite manejar el estado local de componentes complejos con un reducer:
+    */
     ReactDOM.render(
         //h(Avatar,{id: "2"}), $app
         <div>
